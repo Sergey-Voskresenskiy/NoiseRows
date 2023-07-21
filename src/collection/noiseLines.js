@@ -1,4 +1,4 @@
-import { Vector2 } from "three";
+import { Vector2, Color } from "three";
 import { Line2, LineGeometry, LineMaterial } from "three-fatline";
 
 import { res, colors, noise2D } from "../helpers";
@@ -18,13 +18,14 @@ export function noiseLines(scene) {
     const gapSize = dashSize * (0.5 + Math.random() * 1);
 
     let lcolor = colors.base;
+
     if (linewidth > 1.5 && !hasColoredLine && Math.abs(r) < 4) {
       hasColoredLine = true;
       lcolor = colors.light;
     }
 
     const material = new LineMaterial({
-      color: lcolor,
+      color: new Color(lcolor),
       linewidth,
       dashed,
       dashScale,

@@ -1,4 +1,4 @@
-import { Vector2, Vector3 } from "three";
+import { Vector2, Vector3, Color } from "three";
 import { Line2, LineGeometry, LineMaterial } from "three-fatline";
 
 import { res, colors, noise2D } from "../helpers";
@@ -7,11 +7,22 @@ const yV = new Vector3(0, 1, 0);
 const xV = new Vector3(1, 0, 0);
 const zV = new Vector3(0, 0, 1);
 
-const material = new LineMaterial({
-  color: colors.base,
+const frontMaterial = new LineMaterial({
+  color: new Color(colors.base),
   linewidth: 2,
   resolution: new Vector2(res, res),
 });
+
+const backMaterial = new LineMaterial({
+  color: new Color(colors.base).multiplyScalar(0.470),
+  linewidth: 2,
+  dashed: true,
+  dashScale: 1,
+  dashSize: 5,
+  gapSize: 5,
+  resolution: new Vector2(res, res),
+});
+
 
 function addCube({ position, scale, randAxis, randAngle, scene }) {
   for (let face = 0; face < 6; face++) {
@@ -69,6 +80,8 @@ function addCube({ position, scale, randAxis, randAngle, scene }) {
       v.add(position);
     });
 
+    const isBackFace = normal.dot(zV) < 0;
+
     const geoVertices = [
       vertices[0].x,
       vertices[0].y,
@@ -90,7 +103,11 @@ function addCube({ position, scale, randAxis, randAngle, scene }) {
     const geometry = new LineGeometry();
     geometry.setPositions(geoVertices);
 
-    const line = new Line2(geometry, material);
+    if(isBackFace) {
+      geometry.translate(0, 0, -1);
+    }
+
+    const line = new Line2(geometry, !isBackFace ? frontMaterial : backMaterial);
     line.computeLineDistances();
 
     scene.add(line);
