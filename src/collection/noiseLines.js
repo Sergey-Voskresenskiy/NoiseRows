@@ -1,7 +1,7 @@
 import { Vector2 } from "three";
 import { Line2, LineGeometry, LineMaterial } from "three-fatline";
 
-import { res, colors, noise2D } from '../helpers'
+import { res, colors, noise2D } from "../helpers";
 
 const area = Math.trunc(res * 0.9);
 const linesCount = Math.trunc(res / 35);
