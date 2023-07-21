@@ -12,6 +12,7 @@
     "vite": "^4.4.5"
   },
   "dependencies": {
+    "consola": "^3.2.3",
     "simplex-noise": "4.0.1",
     "three": "0.153.0",
     "three-fatline": "0.6.1"
