@@ -11,6 +11,8 @@ import { colors, res } from "./src/helpers";
 
 import { createLines } from './src/collection'
 
+document.documentElement.style.setProperty('--document-background', colors.documentBackground);
+
 // Scene
 const scene = new Scene();
 scene.background = new Color(colors.canvasBackground);
@@ -37,6 +39,7 @@ document.body.appendChild(renderer.domElement);
 // Art collections
 const collection = {
   noiseLines: createLines,
+
 }
 
 const art = (name) => {
