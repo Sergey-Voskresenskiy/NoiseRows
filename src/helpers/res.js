@@ -1,3 +1,5 @@
-export const res = Math.trunc(
-  (document.body.getBoundingClientRect().height / 100) * 75
+
+
+export const res =  Math.trunc(
+  Math.min(document.body.getBoundingClientRect().height, document.body.getBoundingClientRect().width) * 0.75 
 );
