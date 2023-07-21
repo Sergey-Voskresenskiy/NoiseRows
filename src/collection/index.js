@@ -1,5 +1,7 @@
-import { createLines } from './noiseRows'
+import { noiseLines } from './noiseLines'
+import { noiseCubes } from './noiseCubes'
 
 export {
-  createLines,
+  noiseLines,
+  noiseCubes,
 }

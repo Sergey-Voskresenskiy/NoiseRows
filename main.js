@@ -8,10 +8,40 @@ import {
 import { consola } from 'consola';
 
 import { colors, res } from "./src/helpers";
-
-import { createLines } from './src/collection'
+import { noiseLines, noiseCubes } from './src/collection'
 
 document.documentElement.style.setProperty('--document-background', colors.documentBackground);
+
+// Art collections
+const artCollection = {
+  noiseLines,
+  noiseCubes, 
+}
+// END Art collections
+
+// Select
+let selectedCanvas = 'noiseCubes';
+
+const artCollectionSelect = document.createElement("select");
+artCollectionSelect.classList.add("canvas-selector");
+
+document.body.appendChild(artCollectionSelect);
+
+Object.keys(artCollection).forEach(art => {
+  const option = document.createElement("option");
+  option.value = art;
+  option.text = art;
+  option.selected = art === selectedCanvas
+
+  artCollectionSelect.appendChild(option);
+})
+
+artCollectionSelect.addEventListener('change', event => {
+  selectedCanvas = event.target.value;
+  showArt(selectedCanvas);
+})
+
+// END Select
 
 // Scene
 const scene = new Scene();
@@ -33,22 +63,20 @@ camera.position.z = 0;
 // Renderer
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.setSize(res, res);
+renderer.tabindex = 0
 document.body.appendChild(renderer.domElement);
 // END Renderer
 
-// Art collections
-const collection = {
-  noiseLines: createLines,
+const showArt = (name) => {
+  consola.info(` Now displayed ${name}`);
+  document.title = ` Art | ${name}`;
+  // clean up scene
+  scene.remove.apply(scene, scene.children);
 
+  return artCollection[name](scene);
 }
 
-const art = (name) => {
-  consola.info(` Now displayed ${name}`)
-  return collection[name](scene)
-}
-// END Art collections
-
-art('noiseLines');
+showArt(selectedCanvas);
 
 (function animate() {
   requestAnimationFrame(animate);
